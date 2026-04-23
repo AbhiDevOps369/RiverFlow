@@ -7,6 +7,9 @@ import slugify from "@/utils/slugify";
 import { storage } from "@/models/client/config";
 import HeroSectionHeader from "./HeroSectionHeader";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function HeroSection() {
     const questions = await databases.listDocuments(db, questionCollection, [
         Query.orderDesc("$createdAt"),

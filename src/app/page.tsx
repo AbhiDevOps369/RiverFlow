@@ -2,6 +2,9 @@ import HeroSection from "@/app/components/HeroSection";
 import LatestQuestions from "@/app/components/LatestQuestions";
 import TopContributers from "@/app/components/TopContributers";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default function Home() {
     return (
         <main>

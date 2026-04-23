@@ -37,6 +37,7 @@ interface IAuthStore {
   }>
   forgotPassword(email: string, url: string): Promise<{ success: boolean; error?: AppwriteException | null }>;
   resetPassword(userId: string, secret: string, password: string): Promise<{ success: boolean; error?: AppwriteException | null }>;
+  loginWithOAuth(provider: string): Promise<void>;
   logout(): Promise<void>
 }
 
@@ -127,6 +128,18 @@ export const useAuthStore = create<IAuthStore>()(
             success: false,
             error: error instanceof AppwriteException ? error : null,
           };
+        }
+      },
+
+      async loginWithOAuth(provider: string) {
+        try {
+          await account.createOAuth2Session(
+            provider,
+            `${window.location.origin}/`,
+            `${window.location.origin}/login`
+          );
+        } catch (error) {
+          console.log(error);
         }
       },
 

@@ -5,6 +5,9 @@ import { UserPrefs } from "@/store/Auth";
 import { Query } from "node-appwrite";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const LatestQuestions = async () => {
     const questions = await databases.listDocuments(db, questionCollection, [
         Query.limit(5),

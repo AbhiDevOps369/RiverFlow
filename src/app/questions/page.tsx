@@ -3,6 +3,9 @@ import { answerCollection, db, voteCollection, questionCollection } from "@/mode
 import { Query } from "node-appwrite";
 import React from "react";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 import ShimmerButton from "@/components/magicui/shimmer-button";
 import QuestionCard from "@/components/QuestionCard";
 import { UserPrefs } from "@/store/Auth";
