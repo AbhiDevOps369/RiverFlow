@@ -5,7 +5,8 @@ import { BorderBeam } from "./magicui/border-beam";
 import Link from "next/link";
 import { Models } from "appwrite";
 import slugify from "@/utils/slugify";
-import { avatars } from "@/models/client/config";
+import { avatars, storage } from "@/models/client/config";
+import { questionAttachmentBucket } from "@/models/name";
 import convertDateToRelativeTime from "@/utils/relativeTime";
 
 const QuestionCard = ({ ques }: { ques: Models.Document }) => {
@@ -46,13 +47,15 @@ const QuestionCard = ({ ques }: { ques: Models.Document }) => {
                         </Link>
                     ))}
                     <div className="ml-auto flex items-center gap-1">
-                        <picture>
+                        <div className="h-6 w-6 shrink-0 overflow-hidden rounded-full">
                             <img
-                                src={avatars.getInitials(ques.author.name, 24, 24).href}
+                                src={ques.author?.avatarId ? storage.getFileView(questionAttachmentBucket, ques.author.avatarId).href : avatars.getInitials(ques.author.name, 24, 24).href}
                                 alt={ques.author.name}
-                                className="rounded-lg"
+                                width={24}
+                                height={24}
+                                className="h-full w-full object-cover"
                             />
-                        </picture>
+                        </div>
                         <Link
                             href={`/users/${ques.author.$id}/${slugify(ques.author.name)}`}
                             className="text-orange-500 hover:text-orange-600"

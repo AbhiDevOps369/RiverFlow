@@ -60,6 +60,7 @@ const Page = async ({
                     $id: author.$id,
                     reputation: author.prefs.reputation,
                     name: author.name,
+                    avatarId: author.prefs.avatarId,
                 },
             };
         })

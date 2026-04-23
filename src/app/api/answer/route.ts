@@ -17,6 +17,7 @@ export async function POST(request: NextRequest){
     // Increase author reputation
     const prefs = await users.getPrefs<UserPrefs>(authorId)
     await users.updatePrefs(authorId, {
+      ...prefs,
       reputation: Number(prefs.reputation) + 1
     })
 
@@ -47,6 +48,7 @@ export async function DELETE(request: NextRequest){
     //decrese the reputation
     const prefs = await users.getPrefs<UserPrefs>(answer.authorId)
     await users.updatePrefs(answer.authorId, {
+      ...prefs,
       reputation: Number(prefs.reputation) - 1
     })
 

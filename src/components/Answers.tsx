@@ -4,8 +4,8 @@ import { ID, Models } from "appwrite";
 import React from "react";
 import VoteButtons from "./VoteButtons";
 import { useAuthStore } from "@/store/Auth";
-import { avatars, databases } from "@/models/client/config";
-import { answerCollection, db } from "@/models/name";
+import { avatars, databases, storage } from "@/models/client/config";
+import { answerCollection, db, questionAttachmentBucket } from "@/models/name";
 import RTE, { MarkdownPreview } from "./RTE";
 import Comments from "./Comments";
 import slugify from "@/utils/slugify";
@@ -106,13 +106,15 @@ const Answers = ({
                     <div className="w-full overflow-auto">
                         <MarkdownPreview className="rounded-xl p-4" source={answer.content} />
                         <div className="mt-4 flex items-center justify-end gap-1">
-                            <picture>
+                            <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full">
                                 <img
-                                    src={avatars.getInitials(answer.author.name, 36, 36).href}
+                                    src={answer.author?.avatarId ? storage.getFileView(questionAttachmentBucket, answer.author.avatarId).href : avatars.getInitials(answer.author.name, 36, 36).href}
                                     alt={answer.author.name}
-                                    className="rounded-lg"
+                                    width={36}
+                                    height={36}
+                                    className="h-full w-full object-cover"
                                 />
-                            </picture>
+                            </div>
                             <div className="block leading-tight">
                                 <Link
                                     href={`/users/${answer.author.$id}/${slugify(answer.author.name)}`}

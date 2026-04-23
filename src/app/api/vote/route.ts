@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
             const authorPrefs = await users.getPrefs<UserPrefs>(questionOrAnswer.authorId);
 
             await users.updatePrefs<UserPrefs>(questionOrAnswer.authorId, {
+                ...authorPrefs,
                 reputation:
                     response.documents[0].voteStatus === "upvoted"
                         ? Number(authorPrefs.reputation) - 1
@@ -55,6 +56,7 @@ export async function POST(request: NextRequest) {
             // if vote was present
             if (response.documents[0]) {
                 await users.updatePrefs<UserPrefs>(questionOrAnswer.authorId, {
+                    ...authorPrefs,
                     reputation:
                         // that means prev vote was "upvoted" and new value is "downvoted" so we have to decrease the reputation
                         response.documents[0].voteStatus === "upvoted"
@@ -63,6 +65,7 @@ export async function POST(request: NextRequest) {
                 });
             } else {
                 await users.updatePrefs<UserPrefs>(questionOrAnswer.authorId, {
+                    ...authorPrefs,
                     reputation:
                         // that means prev vote was "upvoted" and new value is "downvoted" so we have to decrease the reputation
                         voteStatus === "upvoted"
@@ -129,7 +132,7 @@ export async function POST(request: NextRequest) {
         );
     } catch (error: any) {
         return NextResponse.json(
-            { message: error?.message || "Error deleting answer" },
+            { message: error?.message || "Error voting" },
             { status: error?.status || error?.code || 500 }
         );
     }

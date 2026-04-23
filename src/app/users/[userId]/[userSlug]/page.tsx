@@ -1,4 +1,5 @@
 import { databases, users } from "@/models/server/config";
+import { avatars } from "@/models/client/config";
 import { UserPrefs } from "@/store/Auth";
 import React from "react";
 import { MagicCard, MagicContainer } from "@/components/magicui/magic-card";

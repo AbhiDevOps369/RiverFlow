@@ -27,14 +27,23 @@ const LabelInputContainer = ({
     return <div className={cn("flex w-full flex-col space-y-2", className)}>{children}</div>;
 };
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 export default function Register() {
-    const { login, createAccount, loginWithOAuth } = useAuthStore();
+    const { login, createAccount, loginWithOAuth, verfiySession, session } = useAuthStore();
+    const router = useRouter();
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState("");
 
+    useEffect(() => {
+        verfiySession();
+        if (session) router.push("/");
+    }, [session]);
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        // ... rest unchanged ...
         const formData = new FormData(e.currentTarget);
         const firstname = formData.get("firstname");
         const lastname = formData.get("lastname");

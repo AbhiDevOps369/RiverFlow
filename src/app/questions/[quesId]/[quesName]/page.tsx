@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 import Answers from "@/components/Answers";
 import Comments from "@/components/Comments";
 import { MarkdownPreview } from "@/components/RTE";
@@ -64,6 +66,7 @@ const Page = async ({ params }: { params: { quesId: string; quesName: string } }
                         $id: author.$id,
                         name: author.name,
                         reputation: author.prefs.reputation,
+                        avatarId: author.prefs.avatarId,
                     },
                 };
             })
@@ -100,6 +103,7 @@ const Page = async ({ params }: { params: { quesId: string; quesName: string } }
                                 $id: author.$id,
                                 name: author.name,
                                 reputation: author.prefs.reputation,
+                                avatarId: author.prefs.avatarId,
                             },
                         };
                     })
@@ -114,6 +118,7 @@ const Page = async ({ params }: { params: { quesId: string; quesName: string } }
                         $id: author.$id,
                         name: author.name,
                         reputation: author.prefs.reputation,
+                        avatarId: author.prefs.avatarId,
                     },
                 };
             })
@@ -192,13 +197,15 @@ const Page = async ({ params }: { params: { quesId: string; quesName: string } }
                             ))}
                         </div>
                         <div className="mt-4 flex items-center justify-end gap-1">
-                            <picture>
+                            <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full">
                                 <img
-                                    src={avatars.getInitials(author.name, 36, 36).href}
+                                    src={author.prefs?.avatarId ? storage.getFileView(questionAttachmentBucket, author.prefs.avatarId).href : avatars.getInitials(author.name, 36, 36).href}
                                     alt={author.name}
-                                    className="rounded-lg"
+                                    width={36}
+                                    height={36}
+                                    className="h-full w-full object-cover"
                                 />
-                            </picture>
+                            </div>
                             <div className="block leading-tight">
                                 <Link
                                     href={`/users/${author.$id}/${slugify(author.name)}`}

@@ -1,11 +1,12 @@
-import { avatars } from "@/models/client/config";
 import { users } from "@/models/server/config";
 import { UserPrefs } from "@/store/Auth";
 import convertDateToRelativeTime from "@/utils/relativeTime";
 import React from "react";
 import EditButton from "./EditButton";
 import Navbar from "./Navbar";
+import ProfileAvatar from "./ProfileAvatar";
 import { IconClockFilled, IconUserFilled } from "@tabler/icons-react";
+export const dynamic = "force-dynamic";
 
 const Layout = async ({
     children,
@@ -20,13 +21,9 @@ const Layout = async ({
         <div className="container mx-auto space-y-4 px-4 pb-20 pt-32">
             <div className="flex flex-col gap-4 sm:flex-row">
                 <div className="w-40 shrink-0">
-                    <picture className="block w-full">
-                        <img
-                            src={avatars.getInitials(user.name, 200, 200).href}
-                            alt={user.name}
-                            className="h-full w-full rounded-xl object-cover"
-                        />
-                    </picture>
+                    <div className="relative aspect-square w-full overflow-hidden rounded-xl border-2 border-purple-500/30 shadow-xl shadow-purple-900/20">
+                        <ProfileAvatar avatarId={user.prefs?.avatarId} name={user.name} userId={user.$id} />
+                    </div>
                 </div>
                 <div className="w-full">
                     <div className="flex items-start justify-between">

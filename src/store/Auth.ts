@@ -7,7 +7,8 @@ import { account } from "@/models/client/config";
 
 
 export interface UserPrefs {
-  reputation: number
+  reputation: number;
+  avatarId?: string;
 }
 
 interface IAuthStore {
@@ -56,11 +57,12 @@ export const useAuthStore = create<IAuthStore>()(
 
       async verfiySession() {
         try {
-          const session = await account.getSession("current")
-          set({session})
-
+          const session = await account.getSession('current');
+          const user = await account.get<UserPrefs>();
+          set({ session, user });
         } catch (error) {
-          console.log(error)
+          console.log(error);
+          set({ session: null, user: null });
         }
       },
 
@@ -73,6 +75,7 @@ export const useAuthStore = create<IAuthStore>()(
 
           ])
           if (!user.prefs?.reputation) await account.updatePrefs<UserPrefs>({
+            ...user.prefs,
             reputation: 0
           })
 
